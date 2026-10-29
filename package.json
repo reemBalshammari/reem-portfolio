@@ -1,0 +1,12 @@
+{
+  "name": "reem-portfolio-cms",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vercel dev"
+  },
+  "devDependencies": {
+    "vercel": "^50.0.0"
+  }
+}

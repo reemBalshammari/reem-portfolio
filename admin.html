@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="robots" content="noindex,nofollow">
+  <title>لوحة تحكمي الخاصه  | Portfolio CMS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Inter:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/admin.css">
+</head>
+<body>
+  <div class="admin-shell">
+    <header class="admin-top">
+      <div class="admin-brand">
+        <div class="admin-logo">R</div>
+        <div>
+          <h1>لوحة إدارة البورتفوليو</h1>
+          <p>إدارة محتوى موقع البورتفوليو  </p>
+        </div>
+      </div>
+      <a class="btn" href="index.html" target="_blank">عرض الموقع</a>
+    </header>
+
+    <section class="login-wrap" id="loginView">
+      <form class="login-card" id="loginForm">
+        <h2>تسجيل الدخول</h2>
+        <p>هذه الصفحة خاصة بريم فقط.</p>
+        <div class="setup-note hidden" id="configWarning">أكملي بيانات Supabase داخل <b>assets/js/config.js</b> أولًا.</div>
+        <div class="field">
+          <label for="loginEmail">البريد الإلكتروني</label>
+          <input id="loginEmail" type="email" autocomplete="email" required>
+        </div>
+        <div class="field">
+          <label for="loginPassword">كلمة المرور</label>
+          <input id="loginPassword" type="password" autocomplete="current-password" required>
+        </div>
+        <button class="btn primary" type="submit" id="loginButton">دخول آمن</button>
+        <p class="status" id="loginStatus" role="status"></p>
+      </form>
+    </section>
+
+    <section class="dashboard hidden" id="dashboard">
+      <aside class="sidebar">
+        <button class="side-button active" data-panel="profilePanel">المحتوى العام</button>
+        <button class="side-button" data-panel="itemsPanel">المشاريع والعناصر</button>
+        <button class="side-button" data-panel="messagesPanel">الرسائل</button>
+        <div class="side-divider"></div>
+        <button class="side-button" id="importSeedButton">استيراد المحتوى الحالي</button>
+        <button class="side-button" id="logoutButton">تسجيل الخروج</button>
+      </aside>
+
+      <main class="content">
+        <section class="panel active" id="profilePanel">
+          <div class="panel-head">
+            <div><h2>المحتوى العام</h2><p>الاسم، النبذة، الروابط، المهارات والتعليم.</p></div>
+          </div>
+          <form class="card" id="profileForm">
+            <div class="form-grid">
+              <div class="field"><label>الاسم بالعربي</label><input name="full_name_ar" required></div>
+              <div class="field"><label>الاسم بالإنجليزي</label><input name="full_name_en"></div>
+              <div class="field"><label>المسمى بالعربي</label><input name="headline_ar"></div>
+              <div class="field"><label>المسمى بالإنجليزي</label><input name="headline_en"></div>
+              <div class="field full"><label>النبذة بالعربي</label><textarea name="bio_ar"></textarea></div>
+              <div class="field full"><label>النبذة بالإنجليزي</label><textarea name="bio_en"></textarea></div>
+              <div class="field"><label>حالة التوفر بالعربي</label><input name="availability_ar"></div>
+              <div class="field"><label>حالة التوفر بالإنجليزي</label><input name="availability_en"></div>
+              <div class="field"><label>البريد</label><input name="email" type="email"></div>
+              <div class="field"><label>رابط السيرة الذاتية</label><input name="cv_url"></div>
+              <div class="field"><label>LinkedIn</label><input name="linkedin"></div>
+              <div class="field"><label>GitHub</label><input name="github"></div>
+              <div class="field full"><label>رابط جميع الشهادات</label><input name="certificates_url"></div>
+              <div class="field full"><label>المهارات التقنية — افصلي بينها بفاصلة</label><textarea name="technical_skills"></textarea></div>
+              <div class="field full"><label>المهارات المهنية بالعربي — افصلي بينها بفاصلة</label><textarea name="soft_skills_ar"></textarea></div>
+              <div class="field full"><label>المهارات المهنية بالإنجليزي — افصلي بينها بفاصلة</label><textarea name="soft_skills_en"></textarea></div>
+              <div class="field"><label>الدرجة العلمية بالعربي</label><input name="degree_ar"></div>
+              <div class="field"><label>الدرجة العلمية بالإنجليزي</label><input name="degree_en"></div>
+              <div class="field"><label>الجامعة بالعربي</label><input name="university_ar"></div>
+              <div class="field"><label>الجامعة بالإنجليزي</label><input name="university_en"></div>
+              <div class="field"><label>سنة التخرج</label><input name="graduation_year"></div>
+            </div>
+            <div class="actions"><button class="btn primary" type="submit">حفظ ونشر التعديلات</button></div>
+            <p class="status" id="profileStatus" role="status"></p>
+          </form>
+        </section>
+
+        <section class="panel" id="itemsPanel">
+          <div class="panel-head">
+            <div><h2>المشاريع والعناصر</h2><p>أضيفي وعدّلي واحذفي ورتبي من مكان واحد.</p></div>
+            <button class="btn primary" id="newItemButton" type="button">إضافة عنصر جديد</button>
+          </div>
+
+          <form class="card hidden" id="itemForm">
+            <input type="hidden" name="id">
+            <div class="form-grid">
+              <div class="field">
+                <label>القسم</label>
+                <select name="section" required>
+                  <option value="projects">المشاريع</option>
+                  <option value="certificates">الشهادات</option>
+                  <option value="training">التدريب والبرامج</option>
+                  <option value="volunteer">الخبرات التطوعية</option>
+                </select>
+              </div>
+              <div class="field"><label>الترتيب</label><input name="display_order" type="number" min="0" value="1"></div>
+              <div class="field"><label>العنوان بالعربي</label><input name="title_ar" required></div>
+              <div class="field"><label>العنوان بالإنجليزي</label><input name="title_en"></div>
+              <div class="field"><label>الجهة بالعربي</label><input name="organization_ar"></div>
+              <div class="field"><label>الجهة بالإنجليزي</label><input name="organization_en"></div>
+              <div class="field full"><label>الوصف بالعربي</label><textarea name="description_ar"></textarea></div>
+              <div class="field full"><label>الوصف بالإنجليزي</label><textarea name="description_en"></textarea></div>
+              <div class="field"><label>التاريخ أو الرقم الجانبي</label><input name="date_label"></div>
+              <div class="field"><label>الشارة بالعربي</label><input name="badge_ar"></div>
+              <div class="field"><label>الشارة بالإنجليزي</label><input name="badge_en"></div>
+              <div class="field"><label>رابط المشروع</label><input name="primary_url"></div>
+              <div class="field"><label>الرابط الإضافي</label><input name="secondary_url"></div>
+              <div class="field full"><label>التقنيات — افصلي بينها بفاصلة</label><input name="tags"></div>
+              <div class="field full">
+                <label>صورة المشروع</label>
+                <div class="upload-line">
+                  <div class="field"><input name="image_url" placeholder="الرابط يظهر هنا بعد الرفع"></div>
+                  <input id="imageUpload" type="file" accept="image/*" hidden>
+                  <button class="btn" type="button" data-upload="image">رفع صورة</button>
+                  <img class="preview" id="imagePreview" alt="">
+                </div>
+              </div>
+              <div class="field full">
+                <label>شعار الجهة</label>
+                <div class="upload-line">
+                  <div class="field"><input name="logo_url" placeholder="الرابط يظهر هنا بعد الرفع"></div>
+                  <input id="logoUpload" type="file" accept="image/*" hidden>
+                  <button class="btn" type="button" data-upload="logo">رفع شعار</button>
+                  <img class="preview" id="logoPreview" alt="">
+                </div>
+              </div>
+              <div class="field"><label><input name="is_visible" type="checkbox" checked> إظهار العنصر في الموقع</label></div>
+            </div>
+            <div class="actions">
+              <button class="btn primary" type="submit">حفظ العنصر</button>
+              <button class="btn" type="button" id="cancelItemButton">إلغاء</button>
+            </div>
+            <p class="status" id="itemStatus" role="status"></p>
+          </form>
+
+          <div class="toolbar card">
+            <label for="sectionFilter">عرض:</label>
+            <select id="sectionFilter">
+              <option value="all">جميع الأقسام</option>
+              <option value="projects">المشاريع</option>
+              <option value="certificates">الشهادات</option>
+              <option value="training">التدريب والبرامج</option>
+              <option value="volunteer">الخبرات التطوعية</option>
+            </select>
+          </div>
+          <div class="items" id="itemsList"></div>
+        </section>
+
+        <section class="panel" id="messagesPanel">
+          <div class="panel-head"><div><h2>رسائل التواصل</h2><p>الرسائل القادمة من نموذج الموقع.</p></div></div>
+          <div id="messagesList"></div>
+        </section>
+      </main>
+    </section>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="assets/js/config.js"></script>
+  <script src="assets/js/seed.js"></script>
+  <script src="assets/js/admin.js"></script>
+</body>
+</html>
