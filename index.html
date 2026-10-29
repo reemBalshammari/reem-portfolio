@@ -175,8 +175,53 @@
     if(projectCards[2]){projectCards[2].querySelector('.project-index').textContent='03 / GRADUATION PROJECT';const waslTitle=projectCards[2].querySelector('.project-title');waslTitle.dataset.ar='وصل — فرصتك توصل';waslTitle.dataset.en='WASL — Your Opportunity Arrives'}
     if(projectCards[3])projectCards[3].querySelector('.project-index').textContent='04 / PRODUCT DESIGN';
     applyLanguage(language);langButton.addEventListener('click',()=>applyLanguage(language==='ar'?'en':'ar'));
-    const savedTheme=localStorage.getItem('reem-theme')||'light';root.dataset.theme=savedTheme;const updateThemeButton=()=>{themeButton.textContent=root.dataset.theme==='light'?'☾':'☀';themeButton.setAttribute('aria-label',root.dataset.theme==='light'?'تفعيل الوضع الليلي':'تفعيل الوضع الفاتح')};updateThemeButton();
-    themeButton.addEventListener('click',()=>{root.dataset.theme=root.dataset.theme==='light'?'dark':'light';localStorage.setItem('reem-theme',root.dataset.theme);updateThemeButton()});
+    
+    const savedTheme = localStorage.getItem('reem-theme') || 'light';
+root.dataset.theme = savedTheme;
+
+const moonIcon = `
+  <svg width="20" height="20" viewBox="0 0 24 24"
+       fill="none" stroke="currentColor" stroke-width="2"
+       stroke-linecap="round" stroke-linejoin="round"
+       aria-hidden="true">
+    <path d="M21 12.79A9 9 0 1 1 11.21 3
+             7 7 0 0 0 21 12.79Z"></path>
+  </svg>
+`;
+
+const sunIcon = `
+  <svg width="20" height="20" viewBox="0 0 24 24"
+       fill="none" stroke="currentColor" stroke-width="2"
+       stroke-linecap="round" stroke-linejoin="round"
+       aria-hidden="true">
+    <circle cx="12" cy="12" r="4"></circle>
+    <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41
+             M17.66 17.66l1.41 1.41M2 12h2M20 12h2
+             M6.34 17.66l-1.41 1.41
+             M19.07 4.93l-1.41 1.41"></path>
+  </svg>
+`;
+
+const updateThemeButton = () => {
+  const isLight = root.dataset.theme === 'light';
+
+  themeButton.innerHTML = isLight ? moonIcon : sunIcon;
+
+  themeButton.setAttribute(
+    'aria-label',
+    isLight ? 'تفعيل الوضع الليلي' : 'تفعيل الوضع الفاتح'
+  );
+};
+
+updateThemeButton();
+
+themeButton.addEventListener('click', () => {
+  root.dataset.theme =
+    root.dataset.theme === 'light' ? 'dark' : 'light';
+
+  localStorage.setItem('reem-theme', root.dataset.theme);
+  updateThemeButton();
+});
     const menuButton=document.getElementById('menuButton'),mobileMenu=document.getElementById('mobileMenu');const closeMenu=()=>{menuButton.classList.remove('open');mobileMenu.classList.remove('open');menuButton.setAttribute('aria-expanded','false')};menuButton.addEventListener('click',()=>{const open=!mobileMenu.classList.contains('open');menuButton.classList.toggle('open',open);mobileMenu.classList.toggle('open',open);menuButton.setAttribute('aria-expanded',String(open))});mobileMenu.querySelectorAll('a').forEach(link=>link.addEventListener('click',closeMenu));window.addEventListener('resize',()=>{if(innerWidth>900)closeMenu()});
     const certTrack=document.getElementById('certTrack'),certMarquee=document.getElementById('certMarquee');
     if(false){const cards=[...certTrack.children];cards.forEach(card=>card.classList.add('visible'));let currentCert=0,resumeTimer,autoTimer;const showCertificate=index=>{currentCert=(index+cards.length)%cards.length;cards.forEach((card,i)=>card.classList.toggle('is-active',i===currentCert));const cardBox=cards[currentCert].getBoundingClientRect(),marqueeBox=certMarquee.getBoundingClientRect(),horizontalDelta=cardBox.left-marqueeBox.left-(marqueeBox.width-cardBox.width)/2;certMarquee.scrollBy({left:horizontalDelta,behavior:'smooth'})};const restartAuto=()=>{clearInterval(autoTimer);autoTimer=setInterval(()=>showCertificate(currentCert+1),3600)};document.getElementById('certNext').addEventListener('click',()=>{showCertificate(currentCert+1);restartAuto()});document.getElementById('certPrev').addEventListener('click',()=>{showCertificate(currentCert-1);restartAuto()});certTrack.addEventListener('click',event=>{const card=event.target.closest('.cert');if(!card)return;currentCert=cards.indexOf(card);cards.forEach(item=>item.classList.toggle('is-active',item===card));clearTimeout(resumeTimer);resumeTimer=setTimeout(()=>card.classList.remove('is-active'),3000);restartAuto()});certMarquee.addEventListener('mouseenter',()=>clearInterval(autoTimer));certMarquee.addEventListener('mouseleave',restartAuto);restartAuto()}
